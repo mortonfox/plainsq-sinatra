@@ -23,7 +23,7 @@ ABOUT_MSG = <<-EOM
 <p>PlainSquare uses OAuth version 2 to log in to Foursquare to avoid having to store user passwords. PlainSquare supports version 2 of the Foursquare API. It is written in Ruby and designed for hosting on Heroku or OpenShift.
 
 <pre>
-Version: 0.0.3
+Version: 0.0.4
 Author: Po Shan Cheah (<a href="mailto:morton@mortonfox.com">morton@mortonfox.com</a>)
 Source code: <a href="http://code.google.com/p/plainsq/">http://code.google.com/p/plainsq/</a>
 Created: November 21, 2011
@@ -31,7 +31,7 @@ Last updated: August 30, 2012
 </pre>
 EOM
 
-USER_AGENT = 'plainsq_qslw:0.0.3 20120830'
+USER_AGENT = 'plainsq_qslw:0.0.4 20120830'
 TOKEN_COOKIE = 'plainsq_token'
 
 AUTH_URL = 'https://foursquare.com/oauth2/authenticate'
@@ -1531,16 +1531,21 @@ Not found? Add a venue here and check in:<br><input class="inputbox" type="text"
   resp.resp
 end
 
-# Static Google Map.
-def google_map lat, lon
-  parms = uri_encode_form({
-    'size' => '250x250', 
-    'format' => 'gif',
-    'sensor' => 'false',
-    'zoom' => '14',
-    'markers' => "size:mid|color:blue|#{lat},#{lon}"
-  })
-  "<p><img width=\"250\" height=\"250\" alt=\"[Google Map]\" src=\"http://maps.google.com/maps/api/staticmap?#{parms}\">"
+# Static map image.
+def map_image lat, lon
+    coords = escapeURI "#{lat},#{lon}"
+    <<-EOM
+<p><img width="250" height="250" alt="[Bing Map]"
+src="http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/#{coords}/14?ms=250,250&pp=#{coords};0&key=Aha1lOg_Dx1TU7quU-wNTgDN3K3fI9d4MYRgNGIIX1rQI7SBHs4iLB6LRnbKFN5c">
+    EOM
+#   parms = uri_encode_form({
+#     'size' => '250x250', 
+#     'format' => 'gif',
+#     'sensor' => 'false',
+#     'zoom' => '14',
+#     'markers' => "size:mid|color:blue|#{lat},#{lon}"
+#   })
+#   "<p><img width=\"250\" height=\"250\" alt=\"[Google Map]\" src=\"http://maps.google.com/maps/api/staticmap?#{parms}\">"
 end
 
 def category_fmt cat
@@ -1618,8 +1623,8 @@ def vinfo_fmt venue, lat, lon
   vlat = location['lat']
   vlon = location['lng']
   if vlat and vlon
-    # Add static Google Map to the page.
-    gmap_str = google_map(vlat, vlon)
+    # Add static map image to the page.
+    gmap_str = map_image(vlat, vlon)
 
     dist = distance lat, lon, vlat, vlon
     compass = bearing lat, lon, vlat, vlon
@@ -2215,7 +2220,7 @@ def geocode_result_fmt result
     'geolong' => lng
   })
   s += "<br>#{convcoords lat, lng}"
-  s += google_map(lat, lng)
+  s += map_image(lat, lng)
   s
 end
 
@@ -2325,8 +2330,8 @@ def checkin_fmt checkin, notif
     if location 
       lat = location['lat']
       lng = location['lng']
-      # Add static Google Map to the page.
-      s += google_map(lat, lng) if lat and lng 
+      # Add static map image to the page.
+      s += map_image(lat, lng) if lat and lng 
     end
 
     pcat = get_prim_category venue['categories']
