@@ -47,10 +47,19 @@ METERS_PER_MILE = 1609.344
 # Send location parameters if distance is below MAX_MILES_LOC.
 MAX_MILES_LOC = 1.1
 
-# Production environment.
-CALLBACK_URL = 'http://www.qslw.com/oauth'
-CLIENT_ID = 'IUWZ0RTGVGJF1QL3KNGMM3SHMNWTWNDIU2NNU422E30QR1DD'
-CLIENT_SECRET = 'KIM2K03UADKK0YWXVMFIZ2DBXOCJJF00QLVQ20XLJ2AZEROD'
+if $DATABASE_URL =~ /sqlite/
+  # In development environment, use local callback.
+  # Also need to use a different consumer because Foursquare
+  # checks the callback URL.
+  CALLBACK_URL = 'http://localhost:5000/oauth'
+  CLIENT_ID = 'SR4KMLAZA1OJUCI4DN3PEFSSN024B3TXKDHYYG5QOFBQVBRD'
+  CLIENT_SECRET = 'U5ULMVFC5N1QPAPBPQLAN0MI3BWREMBCJLGYOR3KT15AMTQJ'
+else
+  # Production environment.
+  CALLBACK_URL = 'http://www.qslw.com/oauth'
+  CLIENT_ID = 'IUWZ0RTGVGJF1QL3KNGMM3SHMNWTWNDIU2NNU422E30QR1DD'
+  CLIENT_SECRET = 'KIM2K03UADKK0YWXVMFIZ2DBXOCJJF00QLVQ20XLJ2AZEROD'
+end
 
 
 class Response
