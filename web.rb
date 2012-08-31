@@ -2604,11 +2604,10 @@ get '/purge' do
   resp.no_cache
   resp.htmlbegin 'Purge old database entries'
 
-  date_threshold = (Date.today -30).strftime '%Y-%m-%d'
+  date_threshold = (Date.today - 30).strftime '%Y-%m-%d'
+  stmt = "DELETE FROM `sessions` WHERE `last_updated` < '#{date_threshold}'"
 
-  ds = DBConn.get["DELETE FROM sessions WHERE last_updated < '#{date_threshold}'"]
-  rows = ds.delete
-
+  rows = DBConn.get[stmt].delete
   resp.puts "#{rows} rows deleted."
 
   resp.htmlend

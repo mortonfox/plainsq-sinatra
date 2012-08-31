@@ -2,7 +2,6 @@ require 'rubygems'
 require 'sequel'
 require './setup.rb'
 
-DB = Sequel.connect($DATABASE_URL)
 stmt = <<-EOM
 CREATE TABLE sessions ( 
   uuid VARCHAR(100) PRIMARY KEY,
@@ -11,4 +10,7 @@ CREATE TABLE sessions (
   last_updated TIMESTAMP 
 )
 EOM
-DB.run stmt
+
+Sequel.connect($DATABASE_URL) { |db|
+  db.run stmt
+}
