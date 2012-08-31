@@ -141,7 +141,8 @@ if (isandroid) {
   end
 
   def set_cookie cookie, value
-    @resp.set_cookie cookie, value
+    # Expiration date is 20 years from now.
+    @resp.set_cookie cookie, { :value => value, :expires => (Time.now + 20 * 365 * 24 * 60 * 60) }
   end
 
   def redirect target
@@ -150,6 +151,7 @@ if (isandroid) {
   
   # Set the debug option cookie.
   def set_debug debug
+    # No expiration. Debug cookie should not be saved to disk.
     @resp.set_cookie DEBUG_COOKIE, debug ? 1 : 0
   end
 end
