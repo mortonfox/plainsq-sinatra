@@ -27,11 +27,11 @@ Version: 0.0.4
 Author: Po Shan Cheah (<a href="mailto:morton@mortonfox.com">morton@mortonfox.com</a>)
 Source code: <a href="http://code.google.com/p/plainsq/">http://code.google.com/p/plainsq/</a>
 Created: November 21, 2011
-Last updated: August 30, 2012
+Last updated: September 11, 2012
 </pre>
 EOM
 
-USER_AGENT = 'plainsq_qslw:0.0.4 20120830'
+USER_AGENT = 'plainsq_qslw:0.0.4 20120911'
 TOKEN_COOKIE = 'plainsq_token'
 
 AUTH_URL = 'https://foursquare.com/oauth2/authenticate'
@@ -1393,7 +1393,7 @@ def notif_fmt notif
 
   s = "<a class=\"button\" href=\"/venue?vid=#{escapeURI venue['id']}\">#{escapeHTML venue['name']}</a>" if venue
 
-  s = "<a class=\"button\" href=\"/comments?chkid=#{escapeURI checkin['id']}\">#{escapeHTML(checkin['venue'] || {})['name']}</a>" if checkin
+  s = "<a class=\"button\" href=\"/comments?chkid=#{escapeURI checkin['id']}\">#{escapeHTML((checkin['venue'] || {})['name'])}</a>" if checkin
 
   "<img src=\"#{(notif['image'] || {})['fullPath']}\" alt=\"\" class=\"usericon\" style=\"float:right\"><i>#{Time.at(notif['createdAt'] || 0).ctime}</i><br>#{escapeHTML notif['text']}<br>#{s}<br style=\"clear:both\">"
 end
