@@ -583,17 +583,19 @@ accesskey="4"><input class="submitbutton" type="submit" value="Search"></form></
 
 <li><a class="widebutton" href="/friends" accesskey="6">Find friends</a></li>
 
+<!--
 <li><form class="formbox" action="/shout" method="post">
 Shout: <input class="inputbox" type="text" name="message" size="16" accesskey="7">
 <input class="submitbutton" type="submit" value="Shout"></form></li>
+-->
 
-<li><a class="widebutton" href="/leader" accesskey="8">Leaderboard</a></li>
+<li><a class="widebutton" href="/leader" accesskey="7">Leaderboard</a></li>
 
-<li><a class="widebutton" href="/specials" accesskey="9">Specials</a></li>
+<li><a class="widebutton" href="/specials" accesskey="8">Specials</a></li>
 
-<li><a class="widebutton" href="/notif" accesskey="0">Notifications (#{unreadcount})</a></li>
+<li><a class="widebutton" href="/notif" accesskey="9">Notifications (#{unreadcount})</a></li>
 
-<li><a class="widebutton" href="/badges">Badges</a></li>
+<li><a class="widebutton" href="/badges" accesskey="0">Badges</a></li>
 
 <li><a class="widebutton" href="/mayor">Mayorships</a></li>
 
@@ -1810,6 +1812,13 @@ get '/photo' do
   resp.resp
 end
 
+get '/addphoto' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
+  resp.resp
+end
+
 # Add a photo to a check-in.
 post '/addphoto' do
   resp = Response.new
@@ -1999,6 +2008,13 @@ get '/delcomment' do
   resp.resp
 end
 
+get '/addcomment' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
+  resp.resp
+end
+
 # Add a comment to a check-in.
 post '/addcomment' do
   resp = Response.new
@@ -2053,6 +2069,13 @@ end
 
 def find_notifs notif, ntype
   notif.select { |n| n['type'] == ntype }.map { |n| n['item'] }
+end
+
+get '/shout' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
+  resp.resp
 end
 
 # Shout handler
@@ -2410,6 +2433,13 @@ def do_checkin request, resp, client, vid, useloc = false
   end
 end
 
+get '/checkin' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
+  resp.resp
+end
+
 # This handles user checkins by venue ID.
 post '/checkin' do
   resp = Response.new
@@ -2500,6 +2530,13 @@ Shout (optional): <input class="inputbox" type="text" name="shout" size="15"><br
   resp.resp
 end
 
+get '/checkin_long2' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
+  resp.resp
+end
+
 # Continuation of /checkin_long handler after the user submits the checkin
 # form with options.
 post '/checkin_long2' do
@@ -2559,6 +2596,13 @@ post '/checkin_long2' do
     resp.errorpage err.to_s
   end
 
+  resp.resp
+end
+
+get '/addvenue' do
+  resp = Response.new
+  resp.no_cache
+  resp.redirect '/'
   resp.resp
 end
 
